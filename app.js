@@ -7,6 +7,6 @@ const contentRouter = require("./router/contentRouter")
 app.use(express.urlencoded({ extended: false })) // <-- url parser
 app.use(express.json()) // <-- body parser
 // -- routing
-app.use("/v1", contentRouter)
+app.use("/", contentRouter)
 
 module.exports = app
