@@ -6,8 +6,10 @@ const funfactController = require("../controller/funfactController")
 
 const router = express.Router()
 
-router.route("/legends").get(legendController.getAllLegends)
-//   .post(legendController.addLegend)
+router
+  .route("/legends")
+  .get(legendController.getAllLegends)
+  .post(legendController.createLegend)
 
 // router
 //   .route("/legends/:id")

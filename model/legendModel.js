@@ -2,10 +2,6 @@ const mongoose = require("mongoose")
 // Mongoose constructor:
 // --- schema:
 const legendSchema = new mongoose.Schema({
-  uid: {
-    type: String,
-    unique: true,
-  },
   title: {
     type: String,
     required: true,
@@ -14,7 +10,7 @@ const legendSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
-  icon: {
+  image: {
     type: String,
   },
   source: {

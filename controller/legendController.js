@@ -14,3 +14,18 @@ exports.getAllLegends = async (req, res) => {
     })
   }
 }
+
+exports.createLegend = async (req, res) => {
+  try {
+    const newLegend = await legendModel.create(req.body)
+    res.status(201).json({
+      status: "success",
+      data: newLegend,
+    })
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.errmsg,
+    })
+  }
+}
