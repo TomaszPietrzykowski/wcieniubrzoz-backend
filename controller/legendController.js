@@ -1,6 +1,6 @@
 const legendModel = require("../model/legendModel")
 
-exports.getLegends = async (req, res) => {
+exports.getAllLegends = async (req, res) => {
   try {
     const legends = await legendModel.find()
     res.status(200).json({
