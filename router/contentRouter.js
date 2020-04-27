@@ -13,11 +13,11 @@ router
   .get(legendController.getAllLegends)
   .post(legendController.createLegend)
 
-// router
-//   .route("/v1/legends/:id")
-//   .get(legendController.getLegend)
-//   .patch(legendController.updateLegend)
-//   .delete(legendController.deleteLegend)
+router
+  .route("/v1/legends/:id")
+  .get(legendController.getLegend)
+  .patch(legendController.updateLegend)
+  .delete(legendController.deleteLegend)
 
 // router.route("/v1/tips").get(tipController.getAllTips).post(tipController.addTip)
 

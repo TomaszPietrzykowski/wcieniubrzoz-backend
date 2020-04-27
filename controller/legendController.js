@@ -29,13 +29,72 @@ exports.createLegend = async (req, res) => {
     })
   }
 }
-
+// V V V V V V V V V V V V V V V V   DELETE ME
 exports.sendTestMsg = async (req, res) => {
   try {
     const legends = "To jest testowy endpoint dla GET request"
     res.status(200).json({
       status: "success",
       data: legends,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.errmsg,
+    })
+  }
+}
+// /\ /\ /\ /\ /\ ----------------------------------------
+
+exports.getLegend = async (req, res) => {
+  try {
+    const legend = await legendModel.findOne({
+      _id: req.params.id,
+    })
+    res.status(200).json({
+      status: "success",
+      data: legend,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.errmsg,
+    })
+  }
+}
+
+exports.updateLegend = async (req, res) => {
+  try {
+    const legend = await legendModel.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
+    res.status(200).json({
+      status: "success",
+      data: legend,
+    })
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err.errmsg,
+    })
+  }
+}
+
+exports.deleteLegend = async (req, res) => {
+  try {
+    await legendModel.findOneAndDelete({
+      _id: req.params.id,
+    })
+    res.status(204).json({
+      status: "success",
+      data: null,
     })
   } catch (err) {
     res.status(404).json({
