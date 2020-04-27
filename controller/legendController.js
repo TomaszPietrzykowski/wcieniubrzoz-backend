@@ -29,7 +29,7 @@ exports.createLegend = async (req, res) => {
     })
   }
 }
-// V V V V V V V V V V V V V V V V   DELETE ME
+// V V V V V V V V V V V V V V V V   DELETE ME ---------------------------------
 exports.sendTestMsg = async (req, res) => {
   try {
     const legends = "To jest testowy endpoint dla GET request"
@@ -44,7 +44,7 @@ exports.sendTestMsg = async (req, res) => {
     })
   }
 }
-// /\ /\ /\ /\ /\ ----------------------------------------
+// /\ /\ /\ /\ /\ ------------------------------------------------------------------
 
 exports.getLegend = async (req, res) => {
   try {
