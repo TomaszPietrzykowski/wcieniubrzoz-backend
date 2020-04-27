@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const dotenv = require("dotenv")
+const logger = require("./Logger")
 
 dotenv.config({ path: "./config.env" })
 
@@ -21,11 +22,13 @@ mongoose
   })
   .then((con) => {
     // with .then we have access to connection obj, here: con
+    logger.log("Mongo DB connected")
     console.log(
       `MongoDB successfuly connected...... \nDB user: ${con.connections[0].user}`
     )
   })
   .catch(() => {
+    logger.log("Mongo DB connection failed")
     console.log("DB connection failed")
   })
 
