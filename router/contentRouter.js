@@ -9,34 +9,34 @@ const router = express.Router()
 router.route("/").get(legendController.sendTestMsg)
 
 router
-  .route("/v1/legends")
+  .route("/legends")
   .get(legendController.getAllLegends)
   .post(legendController.createLegend)
 
 router
-  .route("/v1/legends/:id")
+  .route("/legends/:id")
   .get(legendController.getLegend)
   .patch(legendController.updateLegend)
   .delete(legendController.deleteLegend)
 
 router
-  .route("/v1/tips")
+  .route("/tips")
   .get(tipController.getAllTips)
   .post(tipController.createTip)
 
 router
-  .route("/v1/tips/:id")
+  .route("/tips/:id")
   .get(tipController.getTip)
   .patch(tipController.updateTip)
   .delete(tipController.deleteTip)
 
 router
-  .route("/v1/funfacts")
+  .route("/funfacts")
   .get(funfactController.getAllFunfacts)
   .post(funfactController.createFunfact)
 
 router
-  .route("/v1/funfacts/:id")
+  .route("/funfacts/:id")
   .get(funfactController.getFunfact)
   .patch(funfactController.updateFunfact)
   .delete(funfactController.deleteFunfact)
