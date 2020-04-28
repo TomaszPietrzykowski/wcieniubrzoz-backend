@@ -4,8 +4,8 @@
   "description": "backend for website wcieniubrzoz.pl",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
