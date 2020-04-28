@@ -14,7 +14,7 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false })) // <-- url parser
 app.use(express.json()) // <-- body parser
 // -- routing
-app.use("/", contentRouter)
+app.use("/api/wcieniubrzoz/v1", contentRouter)
 
 const DB = process.env.DB_CONNECTION_STRING.replace(
   "<PASSWORD>",
