@@ -6,8 +6,6 @@ const funfactController = require("../controller/funfactController")
 
 const router = express.Router()
 
-router.route("/").get(legendController.sendTestMsg)
-
 router
   .route("/legends")
   .get(legendController.getAllLegends)

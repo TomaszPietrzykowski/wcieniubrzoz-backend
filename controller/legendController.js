@@ -29,22 +29,6 @@ exports.createLegend = async (req, res) => {
     })
   }
 }
-// V V V V V V V V V V V V V V V V   DELETE ME ---------------------------------
-exports.sendTestMsg = async (req, res) => {
-  try {
-    const legends = "To jest testowy endpoint dla GET request"
-    res.status(200).json({
-      status: "success",
-      data: legends,
-    })
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err.errmsg,
-    })
-  }
-}
-// /\ /\ /\ /\ /\ ------------------------------------------------------------------
 
 exports.getLegend = async (req, res) => {
   try {
