@@ -1,4 +1,5 @@
 const express = require("express")
+const fileUpload = require("express-fileupload")
 
 const app = express()
 const contentRouter = require("./router/contentRouter")
@@ -10,9 +11,11 @@ const logger = require("./Logger")
 
 dotenv.config({ path: "./config.env" })
 // Middleware cycle:
+app.use(fileUpload())
 app.use(cors())
 app.use(express.urlencoded({ extended: false })) // <-- url parser
 app.use(express.json()) // <-- body parser
+
 // -- routing
 app.use("/api/v1", contentRouter)
 

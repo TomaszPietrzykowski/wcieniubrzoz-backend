@@ -3,6 +3,7 @@ const express = require("express")
 const legendController = require("../controller/legendController")
 const tipController = require("../controller/tipController")
 const funfactController = require("../controller/funfactController")
+const uploadController = require("../controller/uploadController")
 
 const router = express.Router()
 
@@ -38,5 +39,7 @@ router
   .get(funfactController.getFunfact)
   .patch(funfactController.updateFunfact)
   .delete(funfactController.deleteFunfact)
+
+router.route("/upload").post(uploadController.uploadFile)
 
 module.exports = router
