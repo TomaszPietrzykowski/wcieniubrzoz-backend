@@ -1,7 +1,8 @@
 const express = require("express")
 const fileUpload = require("express-fileupload")
-
 const app = express()
+const AppError = require("./appError")
+const errorHandler = require("./controller/errorController")
 const contentRouter = require("./router/contentRouter")
 const userRouter = require("./router/userRouter")
 const cors = require("cors")
@@ -20,22 +21,12 @@ app.use(express.json()) // <-- body parser
 // -- routing
 app.use("/api/v1", contentRouter)
 app.use("/api/v1/users", userRouter)
+// catch all invalid routes - push err to error middleware by passing arg to next()
 app.all("*", (req, res, next) => {
-  res.status(404).json({
-    status: "fail",
-    messsage: `Couldn't find ${req.originalUrl}`,
-  })
-  next()
+  next(new AppError(`Couldn't find ${req.originalUrl}`, 404))
 })
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500
-  err.status = err.status || "error"
-
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-  })
-})
+//global error handling middleware
+app.use(errorHandler)
 const DB = process.env.DB_CONNECTION_STRING.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
