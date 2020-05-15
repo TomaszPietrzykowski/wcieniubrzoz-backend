@@ -19,7 +19,7 @@ logger.on("log", (data) => {
     if (err) throw err
     const currentDate = new Date()
     const y = currentDate.getFullYear()
-    const m = currentDate.getMonth()
+    const m = currentDate.getMonth() + 1
     const d = currentDate.getDate()
     fs.appendFile(
       path.join(__dirname, "/logs", `log_${d}_${m}_${y}.txt`),

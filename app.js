@@ -3,6 +3,7 @@ const fileUpload = require("express-fileupload")
 
 const app = express()
 const contentRouter = require("./router/contentRouter")
+const userRouter = require("./router/userRouter")
 const cors = require("cors")
 
 const mongoose = require("mongoose")
@@ -18,6 +19,7 @@ app.use(express.json()) // <-- body parser
 
 // -- routing
 app.use("/api/v1", contentRouter)
+app.use("/api/v1/users", userRouter)
 
 const DB = process.env.DB_CONNECTION_STRING.replace(
   "<PASSWORD>",
