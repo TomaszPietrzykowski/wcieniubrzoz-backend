@@ -1,15 +1,22 @@
 const express = require("express")
 const fileUpload = require("express-fileupload")
 const app = express()
+const mongoose = require("mongoose")
+const cors = require("cors")
+const dotenv = require("dotenv")
+
 const AppError = require("./utilities/appError")
 const errorHandler = require("./controller/errorController")
 const contentRouter = require("./router/contentRouter")
 const userRouter = require("./router/userRouter")
-const cors = require("cors")
-
-const mongoose = require("mongoose")
-const dotenv = require("dotenv")
 const logger = require("./Logger")
+
+// unhandled rejection catching have to be before any executing code:
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err.message)
+  console.log("UNCAUGHT EXCEPTION :( Shutting the app down...")
+  process.exit(1)
+})
 
 dotenv.config({ path: "./config.env" })
 // Middleware cycle:
@@ -47,6 +54,10 @@ mongoose
     console.log(
       `MongoDB successfuly connected...... \nDB user: ${con.connections[0].user}`
     )
+  })
+  .catch((err) => {
+    logger.log(`Mongo DB connection failed: ${(err.name, err.message)}`)
+    console.log(`Mongo DB connection failed: ${(err.name, err.message)}`)
   })
 
 const PORT = process.env.PORT || 6000
