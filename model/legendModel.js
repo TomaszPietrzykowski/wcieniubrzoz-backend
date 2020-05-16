@@ -4,11 +4,11 @@ const mongoose = require("mongoose")
 const legendSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, "Tytuł jest wymagany"],
   },
   content: {
     type: Array,
-    required: true,
+    required: [true, "Treść jest wymagana"],
   },
   image: {
     type: String,

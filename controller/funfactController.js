@@ -1,89 +1,72 @@
 const funfactModel = require("../model/funfactModel")
+const catchAsync = require("../utilities/catchAsync")
+const AppError = require("../utilities/appError")
 
-exports.getAllFunfacts = async (req, res) => {
-  try {
-    const funfacts = await funfactModel.find()
-    res.status(200).json({
-      status: "success",
-      data: funfacts,
-    })
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err.errmsg,
-    })
+exports.getAllFunfacts = catchAsync(async (req, res, next) => {
+  const funfacts = await funfactModel.find()
+
+  res.status(200).json({
+    status: "success",
+    data: funfacts,
+  })
+})
+
+exports.createFunfact = catchAsync(async (req, res, next) => {
+  const newFunfact = await funfactModel.create(req.body)
+  res.status(201).json({
+    status: "success",
+    data: newFunfact,
+  })
+})
+
+exports.getFunfact = catchAsync(async (req, res, next) => {
+  const funfact = await funfactModel.findOne({
+    _id: req.params.id,
+  })
+
+  if (!funfact) {
+    return next(new AppError("Legenda o podanym id nie istnieje w bazie", 404))
   }
-}
 
-exports.createFunfact = async (req, res) => {
-  try {
-    const newFunfact = await funfactModel.create(req.body)
-    res.status(201).json({
-      status: "success",
-      data: newFunfact,
-    })
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err.errmsg,
-    })
-  }
-}
+  res.status(200).json({
+    status: "success",
+    data: funfact,
+  })
+})
 
-exports.getFunfact = async (req, res) => {
-  try {
-    const funfact = await funfactModel.findOne({
+exports.updateFunfact = catchAsync(async (req, res, next) => {
+  const funfact = await funfactModel.findOneAndUpdate(
+    {
       _id: req.params.id,
-    })
-    res.status(200).json({
-      status: "success",
-      data: funfact,
-    })
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err.errmsg,
-    })
-  }
-}
+    },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
 
-exports.updateFunfact = async (req, res) => {
-  try {
-    const funfact = await funfactModel.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
-    res.status(200).json({
-      status: "success",
-      data: funfact,
-    })
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err.errmsg,
-    })
+  if (!funfact) {
+    return next(new AppError("Legenda o podanym id nie istnieje w bazie", 404))
   }
-}
 
-exports.deleteFunfact = async (req, res) => {
-  try {
-    await funfactModel.findOneAndDelete({
-      _id: req.params.id,
-    })
-    res.status(204).json({
-      status: "success",
-      data: null,
-    })
-  } catch (err) {
-    res.status(404).json({
-      status: "fail",
-      message: err.errmsg,
-    })
+  res.status(200).json({
+    status: "success",
+    data: funfact,
+  })
+})
+
+exports.deleteFunfact = catchAsync(async (req, res, next) => {
+  const funfact = await funfactModel.findOneAndDelete({
+    _id: req.params.id,
+  })
+
+  if (!funfact) {
+    return next(new AppError("Legenda o podanym id nie istnieje w bazie", 404))
   }
-}
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  })
+})

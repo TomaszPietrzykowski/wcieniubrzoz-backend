@@ -1,7 +1,7 @@
 const express = require("express")
 const fileUpload = require("express-fileupload")
 const app = express()
-const AppError = require("./appError")
+const AppError = require("./utilities/appError")
 const errorHandler = require("./controller/errorController")
 const contentRouter = require("./router/contentRouter")
 const userRouter = require("./router/userRouter")
@@ -48,10 +48,16 @@ mongoose
       `MongoDB successfuly connected...... \nDB user: ${con.connections[0].user}`
     )
   })
-  .catch(() => {
-    logger.log("Mongo DB connection failed")
-    console.log("DB connection failed")
-  })
 
 const PORT = process.env.PORT || 6000
-app.listen(PORT, () => console.log(`Server running on port: ${PORT}......`))
+const server = app.listen(PORT, () =>
+  console.log(`Server running on port: ${PORT}......`)
+)
+
+process.on("unhandledRejection", (err) => {
+  console.log(err.name, err.message)
+  console.log("UNHANDLED REJECTION :( Shutting the app down...")
+  server.close(() => {
+    process.exit(1)
+  })
+})
