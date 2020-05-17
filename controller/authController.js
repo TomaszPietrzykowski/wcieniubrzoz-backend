@@ -1,3 +1,4 @@
+const { promisify } = require("util")
 const User = require("../model/userModel")
 const jwt = require("jsonwebtoken")
 const catchAsync = require("../utilities/catchAsync")
@@ -16,6 +17,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     login: req.body.login,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
+    passwordChangedAt: req.body.passwordChangedAt,
     avatar: req.body.avatar,
   })
 
@@ -52,4 +54,35 @@ exports.login = catchAsync(async (req, res, next) => {
       avatar: user.avatar,
     },
   })
+})
+
+exports.protect = catchAsync(async (req, res, next) => {
+  // check if token provided
+  let token
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    token = req.headers.authorization.split(" ")[1]
+  }
+
+  if (!token) {
+    return next(new AppError("Zaloguj się aby uzuskać dostęp", 401))
+  }
+  // validate token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+  // check if user still exist
+  const currentUser = await User.findById(decoded.id)
+  if (!currentUser) {
+    return next(
+      new AppError("Użytkownik powiązany z tokenem już nie istnieje", 401)
+    )
+  }
+  // check if user did change the password after token was issued
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(new AppError("Użytkownik zmienił hasło", 401))
+  }
+  // grant access to protected route
+  req.user = currentUser
+  next()
 })

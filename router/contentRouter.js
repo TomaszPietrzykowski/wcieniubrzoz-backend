@@ -1,5 +1,6 @@
 const express = require("express")
 
+const authController = require("../controller/authController")
 const legendController = require("../controller/legendController")
 const tipController = require("../controller/tipController")
 const funfactController = require("../controller/funfactController")
@@ -10,24 +11,24 @@ const router = express.Router()
 router
   .route("/legends")
   .get(legendController.getAllLegends)
-  .post(legendController.createLegend)
+  .post(authController.protect, legendController.createLegend)
 
 router
   .route("/legends/:id")
   .get(legendController.getLegend)
-  .patch(legendController.updateLegend)
-  .delete(legendController.deleteLegend)
+  .patch(authController.protect, legendController.updateLegend)
+  .delete(authController.protect, legendController.deleteLegend)
 
 router
   .route("/tips")
   .get(tipController.getAllTips)
-  .post(tipController.createTip)
+  .post(authController.protect, tipController.createTip)
 
 router
   .route("/tips/:id")
   .get(tipController.getTip)
-  .patch(tipController.updateTip)
-  .delete(tipController.deleteTip)
+  .patch(authController.protect, tipController.updateTip)
+  .delete(authController.protect, tipController.deleteTip)
 
 router
   .route("/funfacts")

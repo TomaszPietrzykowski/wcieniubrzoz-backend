@@ -43,6 +43,9 @@ const userSchema = new mongoose.Schema({
     },
     message: "Hasło i potwierdzenie hasła musza być jednakowe",
   },
+  passwordChangedAt: {
+    type: Date,
+  },
 })
 
 userSchema.pre("save", async function (next) {
@@ -63,6 +66,18 @@ userSchema.methods.correctPassword = async function (
 ) {
   // userPassword is being passed rather then use this.password due to "select: false" prop
   return await bcrypt.compare(candidatePassword, userPassword)
+}
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    )
+    return JWTTimestamp < changedTimestamp
+  }
+  // false means NOT changed
+  return false
 }
 
 const User = mongoose.model("User", userSchema)
