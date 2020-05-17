@@ -45,17 +45,14 @@ const sendErrorProduction = (err, res) => {
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500
   err.status = err.status || "error"
-
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res)
   } else if (process.env.NODE_ENV === "production") {
     // do not overwrite original object, hard copy it
-    let error = { ...err }
-
+    let error = { ...err, message: err.message }
     if (error.name === "CastError") error = handleCastErrorDB(error)
     if (error.code === 11000) error = handleDuplicateFieldsDB(error)
     if (error.name === "ValidationError") error = handleValidationErrorDB(error)
-
     sendErrorProduction(error, res)
   }
 }
