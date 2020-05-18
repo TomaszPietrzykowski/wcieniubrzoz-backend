@@ -33,14 +33,16 @@ router
 router
   .route("/funfacts")
   .get(funfactController.getAllFunfacts)
-  .post(funfactController.createFunfact)
+  .post(authController.protect, funfactController.createFunfact)
 
 router
   .route("/funfacts/:id")
   .get(funfactController.getFunfact)
-  .patch(funfactController.updateFunfact)
-  .delete(funfactController.deleteFunfact)
+  .patch(authController.protect, funfactController.updateFunfact)
+  .delete(authController.protect, funfactController.deleteFunfact)
 
-router.route("/upload").post(uploadController.uploadFile)
+router
+  .route("/upload")
+  .post(authController.protect, uploadController.uploadFile)
 
 module.exports = router
