@@ -5,6 +5,7 @@ const legendController = require("../controller/legendController")
 const tipController = require("../controller/tipController")
 const funfactController = require("../controller/funfactController")
 const uploadController = require("../controller/uploadController")
+const galleryController = require("../controller/galleryController")
 
 const router = express.Router()
 
@@ -44,5 +45,16 @@ router
 router
   .route("/upload")
   .post(authController.protect, uploadController.uploadFile)
+
+router
+  .route("/gallery")
+  .get(galleryController.getAllGalleries)
+  .post(authController.protect, galleryController.createGallery)
+
+router
+  .route("/gallery/:id")
+  .get(galleryController.getGallery)
+  .patch(authController.protect, galleryController.updateGallery)
+  .delete(authController.protect, galleryController.deleteGallery)
 
 module.exports = router
