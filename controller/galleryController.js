@@ -1,40 +1,41 @@
-const tipModel = require("../model/tipModel")
+const galleryModel = require("../model/galleryModel")
 const catchAsync = require("../utilities/catchAsync")
 const AppError = require("../utilities/appError")
 
 exports.getAllGalleries = catchAsync(async (req, res, next) => {
-  const tips = await tipModel.find()
+  const galleries = await galleryModel.find()
   res.status(200).json({
     status: "success",
-    data: tips,
+    results: galleries.length,
+    data: galleries,
   })
 })
 
 exports.createGallery = catchAsync(async (req, res, next) => {
-  const newTip = await tipModel.create(req.body)
+  const newGallery = await galleryModel.create(req.body)
   res.status(201).json({
     status: "success",
-    data: newTip,
+    data: newGallery,
   })
 })
 
 exports.getGallery = catchAsync(async (req, res, next) => {
-  const tip = await tipModel.findOne({
+  const gallery = await galleryModel.findOne({
     _id: req.params.id,
   })
 
-  if (!tip) {
-    return next(new AppError("Legenda o podanym id nie istnieje w bazie", 404))
+  if (!gallery) {
+    return next(new AppError("Kolekcja o podanym id nie istnieje w bazie", 404))
   }
 
   res.status(200).json({
     status: "success",
-    data: tip,
+    data: gallery,
   })
 })
 
 exports.updateGallery = catchAsync(async (req, res, next) => {
-  const tip = await tipModel.findOneAndUpdate(
+  const gallery = await galleryModel.findOneAndUpdate(
     {
       _id: req.params.id,
     },
@@ -45,23 +46,23 @@ exports.updateGallery = catchAsync(async (req, res, next) => {
     }
   )
 
-  if (!tip) {
-    return next(new AppError("Legenda o podanym id nie istnieje w bazie", 404))
+  if (!gallery) {
+    return next(new AppError("Kolekcja o podanym id nie istnieje w bazie", 404))
   }
 
   res.status(200).json({
     status: "success",
-    data: tip,
+    data: gallery,
   })
 })
 
 exports.deleteGallery = catchAsync(async (req, res, next) => {
-  const tip = await tipModel.findOneAndDelete({
+  const gallery = await galleryModel.findOneAndDelete({
     _id: req.params.id,
   })
 
-  if (!tip) {
-    return next(new AppError("Legenda o podanym id nie istnieje w bazie", 404))
+  if (!gallery) {
+    return next(new AppError("Kolekcja o podanym id nie istnieje w bazie", 404))
   }
 
   res.status(204).json({

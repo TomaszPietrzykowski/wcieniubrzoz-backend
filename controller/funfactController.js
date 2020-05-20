@@ -7,6 +7,7 @@ exports.getAllFunfacts = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    results: funfacts.length,
     data: funfacts,
   })
 })

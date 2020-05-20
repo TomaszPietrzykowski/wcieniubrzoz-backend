@@ -6,6 +6,7 @@ exports.getAllLegends = catchAsync(async (req, res, next) => {
   const legends = await legendModel.find()
   res.status(200).json({
     status: "success",
+    results: legends.length,
     data: legends,
   })
 })

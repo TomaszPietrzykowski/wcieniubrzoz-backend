@@ -6,6 +6,7 @@ exports.getAllTips = catchAsync(async (req, res, next) => {
   const tips = await tipModel.find()
   res.status(200).json({
     status: "success",
+    results: tips.length,
     data: tips,
   })
 })
