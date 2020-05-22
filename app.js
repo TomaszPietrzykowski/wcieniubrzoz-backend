@@ -9,6 +9,7 @@ const AppError = require("./utilities/appError")
 const errorHandler = require("./controller/errorController")
 const contentRouter = require("./router/contentRouter")
 const userRouter = require("./router/userRouter")
+const emailRouter = require("./router/emailRouter")
 const logger = require("./Logger")
 
 // unhandled rejection catching have to be before any executing code:
@@ -28,6 +29,7 @@ app.use(express.json()) // <-- body parser
 // -- routing
 app.use("/api/v1", contentRouter)
 app.use("/api/v1/users", userRouter)
+app.use("/api/v1/email", emailRouter)
 // catch all invalid routes - push err to error middleware by passing arg to next()
 app.all("*", (req, res, next) => {
   next(new AppError(`Couldn't find ${req.originalUrl}`, 404))
