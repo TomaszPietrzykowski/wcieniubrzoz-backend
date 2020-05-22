@@ -38,7 +38,7 @@ const DB = process.env.DB_CONNECTION_STRING.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 )
-logger.log(DB)
+
 mongoose
   .connect(DB, {
     //options object - settings dealing with deprecation warnings:
