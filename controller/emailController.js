@@ -21,12 +21,12 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
 
   // create reusable transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
-    host: "mail44.mydevil.net",
+    host: "mail.wcieniubrzoz.pl",
     port: 465,
     secure: true,
     auth: {
-      user: "mail@goketo.live",
-      pass: "ProgramistaJS225",
+      user: "kontakt@wcieniubrzoz.pl",
+      pass: "saranda123",
     },
     tls: {
       rejectUnauthorized: false,
@@ -35,9 +35,9 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: "mail@goketo.live", // sender address <-- has to be valid for google!!!
-    to: "pietrzykowski77@gmail.com,", // list of receivers
-    subject: `Wiadomość z backendu`, // Subject line
+    from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>", // sender address <-- has to be valid for google!!!
+    to: "pietrzykowski77@gmail.com, danuta.pietrzykowska@gmail.com", // list of receivers
+    subject: `Ktoś wysłał do Ciebie wiadomość :)`, // Subject line
     text: txt, // plain text body
     html: output, // html body
   })
