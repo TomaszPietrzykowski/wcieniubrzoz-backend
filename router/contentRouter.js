@@ -47,7 +47,7 @@ router
   .route("/upload")
   .post(authController.protect, uploadController.uploadFile)
 
-router.route("/delete").post(deleteController.delete)
+router.route("/delete").post(authController.protect, deleteController.delete)
 
 router
   .route("/gallery")
