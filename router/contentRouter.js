@@ -6,6 +6,7 @@ const tipController = require("../controller/tipController")
 const funfactController = require("../controller/funfactController")
 const uploadController = require("../controller/uploadController")
 const galleryController = require("../controller/galleryController")
+const deleteController = require("../controller/deleteController")
 
 const router = express.Router()
 
@@ -45,6 +46,8 @@ router
 router
   .route("/upload")
   .post(authController.protect, uploadController.uploadFile)
+
+router.route("/delete").post(deleteController.delete)
 
 router
   .route("/gallery")
