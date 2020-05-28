@@ -50,6 +50,7 @@ exports.checkRedundancy = catchAsync(async (req, res, next) => {
 
 exports.listFTP = catchAsync(async (req, res, next) => {
   const querryArray = []
+  let dirSize = 0
 
   // ---------------
 
@@ -61,9 +62,14 @@ exports.listFTP = catchAsync(async (req, res, next) => {
     files.forEach(function (file) {
       querryArray.push(file)
     })
+    files.forEach(function (file) {
+      let obj = fs.statSync(`${__dirname}/../public/uploads/${file}`)
+      dirSize += obj.size
+    })
     res.json({
       status: "success",
       results: querryArray.length,
+      ftpSize: dirSize,
       data: querryArray,
     })
   })
@@ -75,6 +81,20 @@ exports.getRedundant = catchAsync(async (req, res, next) => {
   }
   const files = [...req.body.files]
   const noRefferArray = []
+  await Promise.all(
+    files.map(async (file) => {
+      const queryString = `https://gardens.barracudadev.com/uploads/${file}`
+      const tips = await tipModel.find({ image: queryString })
+      const funfacts = await funfactModel.find({ image: queryString })
+      const legends = await legendModel.find({ image: queryString })
+      const gallery = await galleryModel.find({ images: queryString })
+      const documentCount =
+        tips.length + funfacts.length + legends.length + gallery.length
+      if (documentCount === 0) {
+        noRefferArray.push(file)
+      }
+    })
+  )
   await Promise.all(
     files.map(async (file) => {
       const queryString = `https://gardens.barracudadev.com/uploads/${file}`
