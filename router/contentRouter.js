@@ -60,4 +60,13 @@ router
   .patch(authController.protect, galleryController.updateGallery)
   .delete(authController.protect, galleryController.deleteGallery)
 
+// dev-only routes, no ui handler:
+router.route("/list_ftp").get(authController.protect, uploadController.listFTP)
+router
+  .route("/is_redundant")
+  .post(authController.protect, uploadController.checkRedundancy)
+router
+  .route("/get_redundant")
+  .post(authController.protect, uploadController.getRedundant)
+
 module.exports = router
