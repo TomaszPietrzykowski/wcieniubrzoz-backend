@@ -81,7 +81,7 @@ exports.getRedundant = catchAsync(async (req, res, next) => {
       const tips = await tipModel.find({ image: queryString })
       const funfacts = await funfactModel.find({ image: queryString })
       const legends = await legendModel.find({ image: queryString })
-      const gallery = galleryModel.find({ images: queryString })
+      const gallery = await galleryModel.find({ images: queryString })
       const documentCount =
         tips.length + funfacts.length + legends.length + gallery.length
       if (documentCount === 0) {
