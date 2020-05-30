@@ -11,7 +11,7 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
 <h3>${req.body.title}</h3>
 <p>${req.body.message}</p>
 `
-    const txt = `Wiadomość ze strony W cieniu brzóz:\n\n Od: ${req.body.name}\n email: ${req.body.email} \n\n${req.body.message}`
+    const txt = `Wiadomość ze strony W cieniu brzóz:\n\n Od: ${req.body.name}\n email: ${req.body.email} \n\n Temat: ${req.body.title} \n\n${req.body.message}`
 
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -37,7 +37,7 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
     })
     res.status(200).json({
       status: "success",
-      message: "Email sent successfuly",
+      message: "email has been sent",
       envelope: info.envelope,
       accepted: info.accepted,
     })
