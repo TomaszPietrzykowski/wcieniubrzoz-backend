@@ -2,17 +2,10 @@ const catchAsync = require("../utilities/catchAsync")
 const AppError = require("../utilities/appError")
 const nodemailer = require("nodemailer")
 
-exports.pingEmail = catchAsync(async (req, res, next) => {
-  res.status(201).json({
-    status: "success",
-    message: "hit to GET email route and controller successful",
-  })
-})
-
 exports.sendEmail = catchAsync(async (req, res, next) => {
   if (req.headers.auth === process.env.EMAIL_FORM_AUTH) {
     const output = `
-<h4>Wiadomość z formularza W cieniu brzóz:</4>
+<h4>Wiadomość z formularza <i>W cieniu brzóz</i></h4>
 <p>Od: ${req.body.name}</p>
 <p>email: ${req.body.email}</p>
 <h3>${req.body.title}</h3>
@@ -27,7 +20,7 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
       secure: true,
       auth: {
         user: "kontakt@wcieniubrzoz.pl",
-        pass: "saranda123",
+        pass: process.env.EMAIL_CLIENT_PASSWORD,
       },
       tls: {
         rejectUnauthorized: false,
@@ -37,7 +30,7 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
     // send mail with defined transport object
     let info = await transporter.sendMail({
       from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>", // sender address <-- has to be valid for google!!!
-      to: "pietrzykowski77@gmail.com", // list of receivers
+      to: "pietrzykowski77@gmail.com, jpselfservis@gmail.com", // list of receivers
       subject: `Ktoś wysłał do Ciebie wiadomość :)`, // Subject line
       text: txt, // plain text body
       html: output, // html body
