@@ -30,7 +30,7 @@ exports.sendEmail = catchAsync(async (req, res, next) => {
     // send mail with defined transport object
     let info = await transporter.sendMail({
       from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>", // sender address <-- has to be valid for google!!!
-      to: "pietrzykowski77@gmail.com, jpselfservis@gmail.com", // list of receivers
+      to: "pietrzykowski77@gmail.com, danuta.pietrzykowska@gmail.com", // list of receivers
       subject: `Ktoś wysłał do Ciebie wiadomość :)`, // Subject line
       text: txt, // plain text body
       html: output, // html body
