@@ -29,7 +29,7 @@ Odpowiem na nią najszybciej jak to możliwe.</p><p>Pozdrawiam,<br>Dana</p><br><
     const txtResponse = `Witaj, ${senderName}\n Dziękuję za wysłanie wiadomości z formularza na stronie W cieniu brzóz... Odpowiem na nią najszybciej jak to możliwe. \n\nPozdrawiam, \nDana</p><br><br> \n\n Ta wiadomość została wygenerowana automatycznie, proszę na nią nie odpowiadać.`
     const txtNotify = `Nowa wiadomość z formularza, od: ${senderName}\n email: ${senderEmail}. \n\nPrzeczytaj wiadomość na stronie: webmail.wcieniubrzoz.pl`
 
-    // create reusable transporter object using the default SMTP transport
+    // create  transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
       host: "mail.wcieniubrzoz.pl",
       port: 465,
@@ -45,28 +45,27 @@ Odpowiem na nią najszybciej jak to możliwe.</p><p>Pozdrawiam,<br>Dana</p><br><
 
     // send actual email
     let info = await transporter.sendMail({
-      from: `${senderName}<${senderEmail}>`, // sender address <-- has to be valid for google!!!
-      to:
-        "pietrzykowski77@gmail.com, kontakt@wcieniubrzoz.pl, pietrzykowski86@gmail.com", // list of receivers
-      subject: `${topic}`, // Subject line
-      text: txt, // plain text body
-      html: output, // html body
+      from: `${senderName}<${senderEmail}>`,
+      to: "kontakt@wcieniubrzoz.pl",
+      subject: `${topic}`,
+      text: txt,
+      html: output,
     })
     // send confirmation email
     await transporter.sendMail({
-      from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>", // sender address <-- has to be valid for google!!!
-      to: `${senderName}<${senderEmail}>`, // list of receivers
-      subject: `Wiadomość: ${topic} została wysłana`, // Subject line
-      text: txtResponse, // plain text body
-      html: outputResponse, // html body
+      from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>",
+      to: `${senderName}<${senderEmail}>`,
+      subject: `Wiadomość: ${topic} została wysłana`,
+      text: txtResponse,
+      html: outputResponse,
     })
     // send new email notification
     await transporter.sendMail({
-      from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>", // sender address <-- has to be valid for google!!!
-      to: `danuta.pietrzykowska@gmail.com, pietrzykowski77@gmail.com, pietrzykowski86@gmail.com`, // list of receivers
-      subject: `Ktoś wysłał do Ciebie wiadomość: ${topic}`, // Subject line
-      text: txtNotify, // plain text body
-      html: outputNotify, // html body
+      from: "W cieniu brzóz...<kontakt@wcieniubrzoz.pl>",
+      to: `danuta.pietrzykowska@gmail.com`,
+      subject: `Ktoś wysłał do Ciebie wiadomość: ${topic}`,
+      text: txtNotify,
+      html: outputNotify,
     })
     res.status(200).json({
       status: "success",
