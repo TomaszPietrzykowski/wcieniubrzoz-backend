@@ -51,7 +51,7 @@ router.route("/delete").post(authController.protect, deleteController.delete)
 
 router
   .route("/gallery")
-  .get(galleryController.getAllGalleries)
+  .get(authController.protect, galleryController.getAllGalleries)
   .post(authController.protect, galleryController.createGallery)
 
 router.route("/public_gallery").get(galleryController.getPublicGalleries)
