@@ -54,6 +54,8 @@ router
   .get(galleryController.getAllGalleries)
   .post(authController.protect, galleryController.createGallery)
 
+router.route("/public_gallery").get(galleryController.getPublicGalleries)
+
 router
   .route("/gallery/:id")
   .get(galleryController.getGallery)

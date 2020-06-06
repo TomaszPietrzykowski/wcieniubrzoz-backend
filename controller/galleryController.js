@@ -10,6 +10,14 @@ exports.getAllGalleries = catchAsync(async (req, res, next) => {
     data: galleries,
   })
 })
+exports.getPublicGalleries = catchAsync(async (req, res, next) => {
+  const galleries = await galleryModel.find({ isPublic: true })
+  res.status(200).json({
+    status: "success",
+    results: galleries.length,
+    data: galleries,
+  })
+})
 
 exports.createGallery = catchAsync(async (req, res, next) => {
   const newGallery = await galleryModel.create(req.body)

@@ -12,6 +12,10 @@ const gallerySchema = new mongoose.Schema({
   images: {
     type: Array,
   },
+  order: {
+    type: Number,
+    default: 0,
+  },
   lastUpdate: {
     type: Date,
     default: Date.now(),
