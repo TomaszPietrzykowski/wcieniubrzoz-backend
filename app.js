@@ -20,14 +20,15 @@ process.on("uncaughtException", (err) => {
 })
 dotenv.config({ path: "./config.env" })
 // Middleware cycle:
+app.options("*", cors())
 app.use(fileUpload())
 app.use(
   cors({
     credentials: true,
-    origin: ["https://wcieniubrzoz.pl", "https://cms.wcieniubrzoz.pl"],
+    origin: "*",
   })
 )
-app.options("*", cors())
+
 app.use(express.urlencoded({ extended: false })) // <-- url parser
 app.use(express.json()) // <-- body parser
 
