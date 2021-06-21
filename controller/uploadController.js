@@ -49,6 +49,8 @@ exports.checkRedundancy = catchAsync(async (req, res, next) => {
 })
 
 exports.listFTP = catchAsync(async (req, res, next) => {
+  console.log("called")
+  console.log(req.headers)
   const querryArray = []
   let dirSize = 0
 
@@ -66,6 +68,7 @@ exports.listFTP = catchAsync(async (req, res, next) => {
       let obj = fs.statSync(`${__dirname}/../public/uploads/${file}`)
       dirSize += obj.size
     })
+
     res.json({
       status: "success",
       results: querryArray.length,
@@ -76,25 +79,12 @@ exports.listFTP = catchAsync(async (req, res, next) => {
 })
 
 exports.getRedundant = catchAsync(async (req, res, next) => {
+  console.log("get redundant called")
   if (req.body.files === null) {
     return next(new AppError("Querry Array missing in req body", 400))
   }
   const files = [...req.body.files]
   const noRefferArray = []
-  await Promise.all(
-    files.map(async (file) => {
-      const queryString = `https://gardens.barracudadev.com/uploads/${file}`
-      const tips = await tipModel.find({ image: queryString })
-      const funfacts = await funfactModel.find({ image: queryString })
-      const legends = await legendModel.find({ image: queryString })
-      const gallery = await galleryModel.find({ images: queryString })
-      const documentCount =
-        tips.length + funfacts.length + legends.length + gallery.length
-      if (documentCount === 0) {
-        noRefferArray.push(file)
-      }
-    })
-  )
   await Promise.all(
     files.map(async (file) => {
       const queryString = `https://gardens.barracudadev.com/uploads/${file}`

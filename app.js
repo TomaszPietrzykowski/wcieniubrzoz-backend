@@ -14,23 +14,28 @@ const logger = require("./Logger")
 
 // unhandled rejection catching have to be before any executing code:
 process.on("uncaughtException", (err) => {
-  console.log(err.name, err.message)
+  logger.log(`${err.name}\n ${err.message}`)
   console.log("UNCAUGHT EXCEPTION :( Shutting the app down...")
   process.exit(1)
 })
-
 dotenv.config({ path: "./config.env" })
 // Middleware cycle:
 app.use(fileUpload())
-app.use(cors())
+app.use(
+  cors({
+    credentials: true,
+    origin: ["https://wcieniubrzoz.pl", "https://cms.wcieniubrzoz.pl"],
+  })
+)
+app.options("*", cors())
 app.use(express.urlencoded({ extended: false })) // <-- url parser
 app.use(express.json()) // <-- body parser
 
 // -- routing
-app.use("/api/v1", contentRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/email", emailRouter)
-// catch all invalid routes - push err to error middleware by passing arg to next()
+app.use("/api/v1", contentRouter)
+// catch all invalid routes - push err to error middleware by passing argument to next()
 app.all("*", (req, res, next) => {
   next(new AppError(`Couldn't find ${req.originalUrl}`, 404))
 })
@@ -68,7 +73,7 @@ const server = app.listen(PORT, () =>
 )
 
 process.on("unhandledRejection", (err) => {
-  console.log(err.name, err.message)
+  logger.log(`${err.name}\n ${err.message}`)
   console.log("UNHANDLED REJECTION :( Shutting the app down...")
   server.close(() => {
     process.exit(1)
