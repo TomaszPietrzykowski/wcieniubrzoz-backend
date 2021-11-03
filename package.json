@@ -27,7 +27,7 @@
     "mongoose": "^5.12.14",
     "nodemailer": "^6.4.16",
     "uuid": "^7.0.3",
-    "validator": "^13.0.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"
